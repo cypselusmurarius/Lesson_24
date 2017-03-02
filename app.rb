@@ -8,6 +8,7 @@ get '/' do
 end
 
 get '/about' do
+	@error = 'something wrong!'
 	erb :about
 end
 
@@ -37,6 +38,11 @@ post '/visit' do
 	@date_and_time = params[:date_and_time]
 	@barber = params[:barber]
 	@color = params[:colorpicker]
+
+	if @username == ''
+		@error = 'Введите имя'
+		return erb :visit
+	end
 
 	f2 = File.open './public/users.txt', 'a'
 	f2.write "User: #{@username}, Phone: #{@phone}, Date and time: #{@date_and_time}, Barber: #{@barber}, Color:#{@color}\n"
