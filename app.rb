@@ -39,20 +39,24 @@ post '/visit' do
 	@barber = params[:barber]
 	@color = params[:colorpicker]
 
-	if @username == ''
-		@error = 'Введите имя'
-	end
+	hh = { :username => 'Введите имя',
+		   :phone => 'Введите телефон',
+		   :date_and_time => 'Неправильная дата и время'}
 
-	if @phone == ''
-		@error = 'Введите номер телефона'
-	end
+	# для каждой пары ключ-значение
+	hh.each do |key, value|
 
-	if @date_and_time == ''
-		@error = 'Неправильная дата и время'
-	end
+		# если параметр пуст
+		if params[key] == ''
+			# переменной error присвоить value из хеша hh
+			# (а value из хеша hh это сообщение об ошибке)
+			# т.е. переменной error присвоить сообщение об ошибке
+			@error = hh[key]
 
-	if @error != ''
-		return erb :visit
+			# вернуть представление visit
+			return erb :visit
+		end
+
 	end
 
 	f2 = File.open './public/users.txt', 'a'
