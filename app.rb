@@ -19,10 +19,21 @@ end
 post '/contacts' do
 	erb :contacts
 	@email = params[:email]
+	@messages = params[:messages]
 
-	f1 = File.open './public/contacts.txt', 'a'
-	f1.write "Email: #{@email}\n"
-	f1.close
+	hh2 = {
+		:messages => 'Введите сообщение',
+		:email => 'Введите email'
+	}
+
+	hh2.each do |key, value|
+
+		if params[key] == ''
+			@error = hh2[key]
+			return erb :contacts
+		end
+
+	end
 
 	@contactsmessage = 'Вы успешно добавлены в контакты'
 end
@@ -59,8 +70,5 @@ post '/visit' do
 
 	end
 
-	f2 = File.open './public/users.txt', 'a'
-	f2.write "User: #{@username}, Phone: #{@phone}, Date and time: #{@date_and_time}, Barber: #{@barber}, Color:#{@color}\n"
-	f2.close
 	@visitmessage = 'Вы успешно записались на стрижку'
 end
